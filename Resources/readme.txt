@@ -1,0 +1,1 @@
+Use this folder to add resources fro the project.
