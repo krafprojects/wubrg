@@ -27,7 +27,7 @@ class GamePhrase extends StatefulWidget {
 
   @override
  
-  _GamePhraseState createState() => _GamePhraseState();
+  State<GamePhrase> createState() => _GamePhraseState();
 }
 
 class _GamePhraseState extends State<GamePhrase> {
@@ -60,7 +60,7 @@ class _GamePhraseState extends State<GamePhrase> {
         title: Text(widget.title),
       ),
       body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3, // Number of columns
           childAspectRatio: 1.0, 
         ),

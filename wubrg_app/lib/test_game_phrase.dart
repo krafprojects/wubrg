@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wubrg_app/Image_manager.dart';
+import 'package:wubrg_app/image_manager.dart';
 
 class ImageSlider extends StatefulWidget {
   const ImageSlider({super.key});
@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Wubrg Slider'),
+          title: const Text('Wubrg Slider'),
         ),
         body: const Center(
           child: ImageSlider(),
@@ -76,5 +76,5 @@ class MyApp extends StatelessWidget {
 }
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }

@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('MTG Card Viewer'),
         ),
-        body: CardViewer(),
+        body: const CardViewer(),
       ),
     );
   }
