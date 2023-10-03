@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:wubrg_app/ImageManager.dart';
+import 'package:wubrg_app/Image_manager.dart';
 
 class ImageSlider extends StatefulWidget {
+  const ImageSlider({super.key});
+
   @override
-  _ImageSliderState createState() => _ImageSliderState();
+  State<ImageSlider> createState() => _ImageSliderState();
 }
 
 class _ImageSliderState extends State<ImageSlider> {
@@ -38,7 +40,7 @@ class _ImageSliderState extends State<ImageSlider> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 600, // Set the height of your slider as per your requirements
       child: PageView.builder(
         itemCount: images.length,
@@ -56,6 +58,8 @@ class _ImageSliderState extends State<ImageSlider> {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -63,7 +67,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Wubrg Slider'),
         ),
-        body: Center(
+        body: const Center(
           child: ImageSlider(),
         ),
       ),

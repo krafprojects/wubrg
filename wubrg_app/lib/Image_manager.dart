@@ -1,5 +1,5 @@
 class ImageManager {
-  List<String> _allImages = [
+  final List<String> _allImages = [
     'assets/image1.jpg',
     'assets/image2.jpg',
     'assets/image3.jpg',
