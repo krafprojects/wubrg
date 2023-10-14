@@ -3,18 +3,20 @@ import 'package:wubrg_app/ImageManager.dart';
 
 
 void main() {
-  runApp(gamephrase());
+  runApp(const GamePhrase());
 }
 
-class gamephrase extends StatelessWidget {
+class GamePhrase extends StatelessWidget {
+  const GamePhrase({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Wubrg Slider'),
+          title: const Text('Wubrg Slider'),
         ),
-        body: Center(
+        body: const Center(
           child: ImageSlider(),
         ),
       ),
@@ -23,7 +25,10 @@ class gamephrase extends StatelessWidget {
 }
 
 class ImageSlider extends StatefulWidget {
+  const ImageSlider({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _ImageSliderState createState() => _ImageSliderState();
 }
 
@@ -59,7 +64,7 @@ class _ImageSliderState extends State<ImageSlider> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 600, // Set the height of your slider as per your requirements
       child: PageView.builder(
         itemCount: images.length,
@@ -71,6 +76,7 @@ class _ImageSliderState extends State<ImageSlider> {
             currentIndex = index;
           });
         },
+        
       ),
     );
   }
