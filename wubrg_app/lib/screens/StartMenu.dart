@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 const SizedBox(height: 100), // Add a SizedBox for a bigger gap
                 const Align(
                   alignment: Alignment.center,
-                 child: Text(
+                  child: Text(
                     'WUBRG',
                     style: TextStyle(fontSize: 80),
                   ),
@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 const SizedBox(height: 50),
                 const Align(
                   alignment: Alignment.center,
-                 child: Text(
+                  child: Text(
                     'Rules',
                     style: TextStyle(fontSize: 30),
                   ),
@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 const SizedBox(height: 230),
                 const Align(
                   alignment: Alignment.center,
-                 child: Text(
+                  child: Text(
                     'Terms & policy',
                     style: TextStyle(fontSize: 10),
                   ),
