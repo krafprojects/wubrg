@@ -11,26 +11,26 @@ class EndGame extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'EndGamePhrase Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue),
         useMaterial3: false,
       ),
-      home: const MyHomePage(title: 'End Game Phrase'),
+      home: const EndGamePhrase(title: 'End Game Phrase'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class EndGamePhrase extends StatefulWidget {
+  const EndGamePhrase({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<EndGamePhrase> createState() => _EndGamePhrase();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _EndGamePhrase extends State<EndGamePhrase> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

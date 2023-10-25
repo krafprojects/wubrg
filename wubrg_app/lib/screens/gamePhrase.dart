@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wubrg_app/ImageManager.dart';
 
+import '../services/ImageManager.dart';
 
 void main() {
   runApp(const GamePhrase());
@@ -76,9 +76,7 @@ class _ImageSliderState extends State<ImageSlider> {
             currentIndex = index;
           });
         },
-        
       ),
     );
   }
 }
-
