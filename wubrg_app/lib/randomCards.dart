@@ -40,26 +40,49 @@ class _CardViewerState extends State<CardViewer> {
   }
 
   Future<void> loadCardAssets() async {
-    final manifestContent = await rootBundle.loadString('AssetManifest.json');
-    final Map<String, dynamic> manifestMap = json.decode(manifestContent);
+    final response = await Supabase.instance.client.from('cards').select()
+      .order('random()') // This orders the rows randomly
+      .limit(15) // Limit the result to 15 rows
+      ;
 
-    final assetPaths = manifestMap.keys
-        .where((String key) => key.startsWith('assets/image'))
-        .toList();
+    if (response.error != null) {
+      // Handle error
+      print('Error fetching data from Supabase: ${response.error!.message}');
+    } else {
+      List<dynamic> data = response.data;
+      List<String> newCardAssets = [];
 
-    final Random random = Random();
+      for (var item in data) {
+        // Assuming your data contains URLs to card images
+        newCardAssets.add(item['image_url'] as String);
+        
+      }
 
-    final List<String> newCardAssets = [];
-
-    while (newCardAssets.length < numberOfCardsToShow) {
-      final randomIndex = random.nextInt(assetPaths.length);
-      final randomAsset = assetPaths[randomIndex];
-      newCardAssets.add(randomAsset);
+      setState(() {
+        cardAssets = newCardAssets;
+      });
     }
 
-    setState(() {
-      cardAssets = newCardAssets;
-    });
+    // final manifestContent = await rootBundle.loadString('AssetManifest.json');
+    // final Map<String, dynamic> manifestMap = json.decode(manifestContent);
+
+    // final assetPaths = manifestMap.keys
+    //     .where((String key) => key.startsWith('assets/image'))
+    //     .toList();
+
+    // final Random random = Random();
+
+    // final List<String> newCardAssets = [];
+
+    // while (newCardAssets.length < numberOfCardsToShow) {
+    //   final randomIndex = random.nextInt(assetPaths.length);
+    //   final randomAsset = assetPaths[randomIndex];
+    //   newCardAssets.add(randomAsset);
+    // }
+
+    // setState(() {
+    //   cardAssets = newCardAssets;
+    // });
   }
 
   void onCardTap(String assetPath) {
