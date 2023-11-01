@@ -5,6 +5,8 @@ import 'package:wubrg_app/themes/theme.dart' as Theme;
 import 'package:wubrg_app/utils/bubble_indication_painter.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:wubrg_app/widgets/new_user.dart';
+import 'package:wubrg_app/widgets/sign_user.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -48,7 +50,6 @@ class _LoginPageState extends State<LoginPage>
       key: _scaffoldKey,
       body: NotificationListener<OverscrollIndicatorNotification>(
         // onNotification: (overscroll) {
-        //   // overscroll.disallowGlow();
         // },
         child: SingleChildScrollView(
           child: Container(
@@ -59,8 +60,8 @@ class _LoginPageState extends State<LoginPage>
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                   colors: [
-                    Theme.Colors.loginGradientStart,
-                    Theme.Colors.loginGradientEnd
+                    Theme.Colores.loginGradientStart,
+                    Theme.Colores.loginGradientEnd
                   ],
                   begin: FractionalOffset(0.0, 0.0),
                   end: FractionalOffset(1.0, 1.0),
@@ -105,11 +106,35 @@ class _LoginPageState extends State<LoginPage>
                     children: <Widget>[
                       ConstrainedBox(
                         constraints: const BoxConstraints.expand(),
-                        child: _buildSignIn(context),
+                        child: SignUser(
+                            context,
+                            myFocusNodeEmailLogin,
+                            myFocusNodePasswordLogin,
+                            loginEmailController,
+                            loginPasswordController,
+                            _obscureTextLogin,
+                            _toggleLogin,
+                            _scaffoldKey,
+                            showInSnackBar),
+                        // child: _buildSignIn(context),
                       ),
                       ConstrainedBox(
                         constraints: const BoxConstraints.expand(),
-                        child: _buildSignUp(context),
+                        child: NewUser(
+                            context,
+                            myFocusNodeName,
+                            myFocusNodeEmail,
+                            myFocusNodePassword,
+                            signupNameController,
+                            signupEmailController,
+                            signupPasswordController,
+                            signupConfirmPasswordController,
+                            _obscureTextSignup,
+                            _obscureTextSignupConfirm,
+                            _toggleSignup,
+                            _toggleSignupConfirm,
+                            _scaffoldKey,
+                            showInSnackBar),
                       ),
                     ],
                   ),
@@ -210,9 +235,6 @@ class _LoginPageState extends State<LoginPage>
     );
   }
 
-  
-
-  
   void _onSignInButtonPress() {
     _pageController.animateToPage(0,
         duration: const Duration(milliseconds: 500), curve: Curves.decelerate);

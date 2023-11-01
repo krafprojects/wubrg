@@ -1,14 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../themes/theme.dart' as Theme;
 
 class SignUser extends StatefulWidget {
-  const SignUser({super.key});
+  const SignUser(
+      BuildContext context,
+      this.myFocusNodePasswordLogin,
+      this.myFocusNodeEmailLogin,
+      this.loginEmailController,
+      this.loginPasswordController,
+      this.obscureTextLogin,
+      this.toggleLogin,
+      this.scaffoldKey,
+      this.showInSnackBar,
+      {super.key});
+
+  final FocusNode myFocusNodeEmailLogin;
+  final FocusNode myFocusNodePasswordLogin;
+  final TextEditingController loginEmailController;
+  final TextEditingController loginPasswordController;
+  final bool obscureTextLogin;
+  final void Function() toggleLogin;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  final void Function(String value) showInSnackBar;
 
   @override
   State<SignUser> createState() => _SignUserState();
-}git 
+}
 
 class _SignUserState extends State<SignUser> {
-  Widget _buildSignIn(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 23.0),
       child: Column(
@@ -32,8 +55,8 @@ class _SignUserState extends State<SignUser> {
                         padding: const EdgeInsets.only(
                             top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
                         child: TextField(
-                          focusNode: myFocusNodeEmailLogin,
-                          controller: loginEmailController,
+                          focusNode: widget.myFocusNodeEmailLogin,
+                          controller: widget.loginEmailController,
                           keyboardType: TextInputType.emailAddress,
                           style: const TextStyle(
                               fontFamily: "WorkSansSemiBold",
@@ -61,9 +84,9 @@ class _SignUserState extends State<SignUser> {
                         padding: const EdgeInsets.only(
                             top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
                         child: TextField(
-                          focusNode: myFocusNodePasswordLogin,
-                          controller: loginPasswordController,
-                          obscureText: _obscureTextLogin,
+                          focusNode: widget.myFocusNodePasswordLogin,
+                          controller: widget.loginPasswordController,
+                          obscureText: widget.obscureTextLogin,
                           style: const TextStyle(
                               fontFamily: "WorkSansSemiBold",
                               fontSize: 16.0,
@@ -79,9 +102,9 @@ class _SignUserState extends State<SignUser> {
                             hintStyle: const TextStyle(
                                 fontFamily: "WorkSansSemiBold", fontSize: 17.0),
                             suffixIcon: GestureDetector(
-                              onTap: _toggleLogin,
+                              onTap: widget.toggleLogin,
                               child: Icon(
-                                _obscureTextLogin
+                                widget.obscureTextLogin
                                     ? FontAwesomeIcons.eye
                                     : FontAwesomeIcons.eyeSlash,
                                 size: 15.0,
@@ -101,20 +124,20 @@ class _SignUserState extends State<SignUser> {
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                      color: Theme.Colors.loginGradientStart,
+                      color: Theme.Colores.loginGradientStart,
                       offset: Offset(1.0, 6.0),
                       blurRadius: 20.0,
                     ),
                     BoxShadow(
-                      color: Theme.Colors.loginGradientEnd,
+                      color: Theme.Colores.loginGradientEnd,
                       offset: Offset(1.0, 6.0),
                       blurRadius: 20.0,
                     ),
                   ],
                   gradient: LinearGradient(
                       colors: [
-                        Theme.Colors.loginGradientEnd,
-                        Theme.Colors.loginGradientStart
+                        Theme.Colores.loginGradientEnd,
+                        Theme.Colores.loginGradientStart
                       ],
                       begin: FractionalOffset(0.2, 0.2),
                       end: FractionalOffset(1.0, 1.0),
@@ -123,7 +146,7 @@ class _SignUserState extends State<SignUser> {
                 ),
                 child: MaterialButton(
                     highlightColor: Colors.transparent,
-                    splashColor: Theme.Colors.loginGradientEnd,
+                    splashColor: Theme.Colores.loginGradientEnd,
                     //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
                     child: const Padding(
                       padding: EdgeInsets.symmetric(
@@ -136,7 +159,7 @@ class _SignUserState extends State<SignUser> {
                             fontFamily: "WorkSansBold"),
                       ),
                     ),
-                    onPressed: () => showInSnackBar("Login button pressed")),
+                    onPressed: () => widget.showInSnackBar("Login button pressed")),
               ),
             ],
           ),
@@ -220,7 +243,7 @@ class _SignUserState extends State<SignUser> {
               Padding(
                 padding: const EdgeInsets.only(top: 10.0, right: 40.0),
                 child: GestureDetector(
-                  onTap: () => showInSnackBar("Facebook button pressed"),
+                  onTap: () => widget.showInSnackBar("Facebook button pressed"),
                   child: Container(
                     padding: const EdgeInsets.all(15.0),
                     decoration: const BoxDecoration(
@@ -237,7 +260,7 @@ class _SignUserState extends State<SignUser> {
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
                 child: GestureDetector(
-                  onTap: () => showInSnackBar("Google button pressed"),
+                  onTap: () => widget.showInSnackBar("Google button pressed"),
                   child: Container(
                     padding: const EdgeInsets.all(15.0),
                     decoration: const BoxDecoration(

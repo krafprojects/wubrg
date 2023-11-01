@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
 
-class Colors {
+class Colores {
 
-  const Colors();
+  const Colores();
 
   static const Color loginGradientStart =  Color.fromARGB(222, 42, 103, 58);
 

@@ -1,18 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:wubrg_app/themes/theme.dart';
+import 'package:wubrg_app/themes/theme.dart' as Theme;
 
 class NewUser extends StatefulWidget {
-  const NewUser({super.key});
+  const NewUser(
+      this.context,
+      this.myFocusNodeName,
+      this.myFocusNodeEmail,
+      this.myFocusNodePassword,
+      this.signupNameController,
+      this.signupEmailController,
+      this.signupPasswordController,
+      this.signupConfirmPasswordController,
+      this.obscureTextSignup,
+      this.obscureTextSignupConfirm,
+      this.toggleSignup,
+      this.toggleSignupConfirm,
+      this.scaffoldKey,
+      this.showInSnackBar,
+      {super.key});
+
+  final BuildContext context;
+  final FocusNode myFocusNodeName;
+  final FocusNode myFocusNodeEmail;
+  final FocusNode myFocusNodePassword;
+  final TextEditingController signupNameController;
+  final TextEditingController signupEmailController;
+  final TextEditingController signupPasswordController;
+  final TextEditingController signupConfirmPasswordController;
+  final bool obscureTextSignup;
+  final bool obscureTextSignupConfirm;
+  final void Function() toggleSignup;
+  final void Function() toggleSignupConfirm;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  final void Function(String value) showInSnackBar;
 
   @override
   State<NewUser> createState() => _NewUserState();
 }
 
 class _NewUserState extends State<NewUser> {
-  
-  Widget _buildSignUp(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 23.0),
       child: Column(
@@ -41,13 +71,13 @@ class _NewUserState extends State<NewUser> {
                                 .from('users')
                                 .insert({'name': value});
                             if (response.error != null) {
-                              showInSnackBar(response.error!.message);
+                              widget.showInSnackBar(response.error!.message);
                             } else {
-                              showInSnackBar('User created!');
+                              widget.showInSnackBar('User created!');
                             }
                           },
-                          focusNode: myFocusNodeName,
-                          controller: signupNameController,
+                          focusNode: widget.myFocusNodeName,
+                          controller: widget.signupNameController,
                           keyboardType: TextInputType.text,
                           textCapitalization: TextCapitalization.words,
                           style: const TextStyle(
@@ -91,13 +121,13 @@ class _NewUserState extends State<NewUser> {
                                 .from('users')
                                 .insert({'email_address': value});
                             if (response.error != null) {
-                              showInSnackBar(response.error!.message);
+                              widget.showInSnackBar(response.error!.message);
                             } else {
-                              showInSnackBar('User created!');
+                              widget.showInSnackBar('User created!');
                             }
                           },
-                          focusNode: myFocusNodeEmail,
-                          controller: signupEmailController,
+                          focusNode: widget.myFocusNodeEmail,
+                          controller: widget.signupEmailController,
                           keyboardType: TextInputType.emailAddress,
                           style: const TextStyle(
                               fontFamily: "WorkSansSemiBold",
@@ -124,9 +154,9 @@ class _NewUserState extends State<NewUser> {
                         padding: const EdgeInsets.only(
                             top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
                         child: TextField(
-                          focusNode: myFocusNodePassword,
-                          controller: signupPasswordController,
-                          obscureText: _obscureTextSignup,
+                          focusNode: widget.myFocusNodePassword,
+                          controller: widget.signupPasswordController,
+                          obscureText: widget.obscureTextSignup,
                           style: const TextStyle(
                               fontFamily: "WorkSansSemiBold",
                               fontSize: 16.0,
@@ -141,9 +171,9 @@ class _NewUserState extends State<NewUser> {
                             hintStyle: const TextStyle(
                                 fontFamily: "WorkSansSemiBold", fontSize: 16.0),
                             suffixIcon: GestureDetector(
-                              onTap: _toggleSignup,
+                              onTap: widget.toggleSignup,
                               child: Icon(
-                                _obscureTextSignup
+                                widget.obscureTextSignup
                                     ? FontAwesomeIcons.eye
                                     : FontAwesomeIcons.eyeSlash,
                                 size: 15.0,
@@ -162,8 +192,8 @@ class _NewUserState extends State<NewUser> {
                         padding: const EdgeInsets.only(
                             top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
                         child: TextField(
-                          controller: signupConfirmPasswordController,
-                          obscureText: _obscureTextSignupConfirm,
+                          controller: widget.signupConfirmPasswordController,
+                          obscureText: widget.obscureTextSignupConfirm,
                           style: const TextStyle(
                               fontFamily: "WorkSansSemiBold",
                               fontSize: 16.0,
@@ -178,9 +208,9 @@ class _NewUserState extends State<NewUser> {
                             hintStyle: const TextStyle(
                                 fontFamily: "WorkSansSemiBold", fontSize: 16.0),
                             suffixIcon: GestureDetector(
-                              onTap: _toggleSignupConfirm,
+                              onTap: widget.toggleSignupConfirm,
                               child: Icon(
-                                _obscureTextSignupConfirm
+                                widget.obscureTextSignupConfirm
                                     ? FontAwesomeIcons.eye
                                     : FontAwesomeIcons.eyeSlash,
                                 size: 15.0,
@@ -200,20 +230,20 @@ class _NewUserState extends State<NewUser> {
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
-                      color: Theme.Colors.loginGradientStart,
+                      color: Theme.Colores.loginGradientStart,
                       offset: Offset(1.0, 6.0),
                       blurRadius: 20.0,
                     ),
                     BoxShadow(
-                      color: Theme.Colors.loginGradientEnd,
+                      color: Theme.Colores.loginGradientEnd,
                       offset: Offset(1.0, 6.0),
                       blurRadius: 20.0,
                     ),
                   ],
                   gradient: LinearGradient(
                       colors: [
-                        Theme.Colors.loginGradientEnd,
-                        Theme.Colors.loginGradientStart
+                        Theme.Colores.loginGradientEnd,
+                        Theme.Colores.loginGradientStart
                       ],
                       begin: FractionalOffset(0.2, 0.2),
                       end: FractionalOffset(1.0, 1.0),
@@ -222,7 +252,7 @@ class _NewUserState extends State<NewUser> {
                 ),
                 child: MaterialButton(
                     highlightColor: Colors.transparent,
-                    splashColor: Theme.Colors.loginGradientEnd,
+                    splashColor: Theme.Colores.loginGradientEnd,
                     //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
                     child: const Padding(
                       padding: EdgeInsets.symmetric(
@@ -235,7 +265,8 @@ class _NewUserState extends State<NewUser> {
                             fontFamily: "WorkSansBold"),
                       ),
                     ),
-                    onPressed: () => showInSnackBar("SignUp button pressed")),
+                    onPressed: () =>
+                        widget.showInSnackBar("SignUp button pressed")),
               ),
             ],
           ),
@@ -243,5 +274,4 @@ class _NewUserState extends State<NewUser> {
       ),
     );
   }
-
 }
