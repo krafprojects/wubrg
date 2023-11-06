@@ -4,7 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:wubrg_app/themes/theme.dart' as Theme;
 
 class NewUser extends StatefulWidget {
-  const NewUser(
+  NewUser(
       this.context,
       this.myFocusNodeName,
       this.myFocusNodeEmail,
@@ -25,10 +25,10 @@ class NewUser extends StatefulWidget {
   final FocusNode myFocusNodeName;
   final FocusNode myFocusNodeEmail;
   final FocusNode myFocusNodePassword;
-  final TextEditingController signupNameController;
-  final TextEditingController signupEmailController;
-  final TextEditingController signupPasswordController;
-  final TextEditingController signupConfirmPasswordController;
+  TextEditingController signupNameController;
+  TextEditingController signupEmailController;
+  TextEditingController signupPasswordController;
+  TextEditingController signupConfirmPasswordController;
   final bool obscureTextSignup;
   final bool obscureTextSignupConfirm;
   final void Function() toggleSignup;
@@ -66,15 +66,10 @@ class _NewUserState extends State<NewUser> {
                         padding: const EdgeInsets.only(
                             top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
                         child: TextFormField(
-                          onFieldSubmitted: (value) async {
-                            final response = await Supabase.instance.client
-                                .from('users')
-                                .insert({'name': value});
-                            if (response.error != null) {
-                              widget.showInSnackBar(response.error!.message);
-                            } else {
-                              widget.showInSnackBar('User created!');
-                            }
+                          onSaved: (value) {
+                            // checar en un futuro
+                            widget.signupNameController =
+                                value as TextEditingController;
                           },
                           focusNode: widget.myFocusNodeName,
                           controller: widget.signupNameController,
@@ -116,15 +111,28 @@ class _NewUserState extends State<NewUser> {
                         padding: const EdgeInsets.only(
                             top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
                         child: TextFormField(
-                          onFieldSubmitted: (value) async {
-                            final response = await Supabase.instance.client
-                                .from('users')
-                                .insert({'email_address': value});
-                            if (response.error != null) {
-                              widget.showInSnackBar(response.error!.message);
-                            } else {
-                              widget.showInSnackBar('User created!');
+                          onSaved: (value) {
+                            // checar en un futuro
+                            widget.signupEmailController =
+                                value as TextEditingController;
+                          },
+                          // onFieldSubmitted: (value) async {
+                          //   final response = await Supabase.instance.client
+                          //       .from('users')
+                          //       .insert({'email_address': value});
+                          //   if (response.error != null) {
+                          //     widget.showInSnackBar(response.error!.message);
+                          //   } else {
+                          //     widget.showInSnackBar('User created!');
+                          //   }
+                          // },
+                          validator: (value) {
+                            if (value == null ||
+                                value.trim().isEmpty ||
+                                !value.contains('@')) {
+                              return 'Enter a valid email';
                             }
+                            return null;
                           },
                           focusNode: widget.myFocusNodeEmail,
                           controller: widget.signupEmailController,
@@ -153,7 +161,18 @@ class _NewUserState extends State<NewUser> {
                       Padding(
                         padding: const EdgeInsets.only(
                             top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-                        child: TextField(
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == null || value.trim().length < 6) {
+                              return 'Password must contain at least 6 characters ';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            // checar en un futuro
+                            widget.signupPasswordController =
+                                value as TextEditingController;
+                          },
                           focusNode: widget.myFocusNodePassword,
                           controller: widget.signupPasswordController,
                           obscureText: widget.obscureTextSignup,
@@ -191,8 +210,15 @@ class _NewUserState extends State<NewUser> {
                       Padding(
                         padding: const EdgeInsets.only(
                             top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-                        child: TextField(
-                          controller: widget.signupConfirmPasswordController,
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value != widget.signupPasswordController.text) {
+                              return 'The password does not match with the password above';
+                            }
+                            return null;
+                          },
+
+                          // controller: widget.signupConfirmPasswordController,
                           obscureText: widget.obscureTextSignupConfirm,
                           style: const TextStyle(
                               fontFamily: "WorkSansSemiBold",
@@ -251,27 +277,39 @@ class _NewUserState extends State<NewUser> {
                       tileMode: TileMode.clamp),
                 ),
                 child: MaterialButton(
-                    highlightColor: Colors.transparent,
-                    splashColor: Theme.Colores.loginGradientEnd,
-                    //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 42.0),
-                      child: Text(
-                        "SIGN UP",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25.0,
-                            fontFamily: "WorkSansBold"),
-                      ),
+                  highlightColor: Colors.transparent,
+                  splashColor: Theme.Colores.loginGradientEnd,
+                  onPressed: submit,
+                  //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                  child: const Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 42.0),
+                    child: Text(
+                      "SIGN UP",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25.0,
+                          fontFamily: "WorkSansBold"),
                     ),
-                    onPressed: () =>
-                        widget.showInSnackBar("SignUp button pressed")),
-              ),
+                  ),
+                ),
+              )
             ],
           ),
         ],
       ),
     );
+  }
+
+  void submit() async {
+    final response = await Supabase.instance.client.from('users').insert({
+      'email_address': widget.signupEmailController.text,
+      'name': widget.signupNameController.text,
+    });
+    if (response.error != null) {
+      widget.showInSnackBar(response.error!.message);
+    } else {
+      widget.showInSnackBar('User created!');
+    }
   }
 }
