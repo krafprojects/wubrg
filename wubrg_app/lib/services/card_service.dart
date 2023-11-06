@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:wubrg_app/services/databaseService.dart';
+import 'package:wubrg_app/services/database_service.dart';
 
-import '../models/card.dart';
+import '../models/card_wubrg.dart';
 
 // - Card Set Requiriments - //
 // 1x Legend
@@ -13,15 +13,15 @@ import '../models/card.dart';
 // 8x Commons
 // 1x Land
 
-Card getRandomCard(List<Card> cards) {
+CardWubrg getRandomCard(List<CardWubrg> cards) {
   final random = Random();
   var i = random.nextInt(cards.length);
   print(i);
   return cards[i];
 }
 
-List<Card> getRandomCards(List<Card> cards, int quantity) {
-  List<Card> randomCards = [];
+List<CardWubrg> getRandomCards(List<CardWubrg> cards, int quantity) {
+  List<CardWubrg> randomCards = [];
   final random = Random();
 
   for (var i = 0; i < quantity; i++) {
@@ -34,38 +34,38 @@ List<Card> getRandomCards(List<Card> cards, int quantity) {
   return randomCards;
 }
 
-Future<Card> getRandomLegendCard() async {
-  List<Card> cards = await getLegendCards();
+Future<CardWubrg> getRandomLegendCard() async {
+  List<CardWubrg> cards = await getLegendCards();
   print(cards.length);
   return getRandomCard(cards);
 }
 
-Future<Card> getRandomDoubleFacedBattleCard() async {
-  List<Card> cards = await getDoubleFacedBattleCards();
+Future<CardWubrg> getRandomDoubleFacedBattleCard() async {
+  List<CardWubrg> cards = await getDoubleFacedBattleCards();
   print(cards.length);
   return getRandomCard(cards);
 }
 
-Future<Card> getRandomSingleFacedCard() async {
-  List<Card> cards = await getSingleFacedCards();
+Future<CardWubrg> getRandomSingleFacedCard() async {
+  List<CardWubrg> cards = await getSingleFacedCards();
   print(cards.length);
   return getRandomCard(cards);
 }
 
-Future<Card> getRandomDoubleFacedCard() async {
-  List<Card> cards = await getDoubleFacedCards();
+Future<CardWubrg> getRandomDoubleFacedCard() async {
+  List<CardWubrg> cards = await getDoubleFacedCards();
   print(cards.length);
   return getRandomCard(cards);
 }
 
-Future<List<Card>> getRandomUncommonCard() async {
-  List<Card> cards = await getUncommonCards();
+Future<List<CardWubrg>> getRandomUncommonCard() async {
+  List<CardWubrg> cards = await getUncommonCards();
   print(cards.length);
   return getRandomCards(cards, 2);
 }
 
-Future<List<Card>> getRandomCommonCard() async {
-  List<Card> cards = await getCommonCards();
+Future<List<CardWubrg>> getRandomCommonCard() async {
+  List<CardWubrg> cards = await getCommonCards();
   print(cards.length);
   return getRandomCards(cards, 8);
 }

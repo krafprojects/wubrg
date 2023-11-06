@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'card.dart';
+part of 'card_wubrg.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Card _$CardFromJson(Map<String, dynamic> json) => Card(
+CardWubrg _$CardFromJson(Map<String, dynamic> json) => CardWubrg(
       json['id'] as String,
       json['name'] as String,
       json['card_set'] as String,
@@ -19,7 +19,7 @@ Card _$CardFromJson(Map<String, dynamic> json) => Card(
           : FaceCard.fromJson(json['face_reverse'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$CardToJson(Card instance) => <String, dynamic>{
+Map<String, dynamic> _$CardToJson(CardWubrg instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'card_set': instance.card_set,

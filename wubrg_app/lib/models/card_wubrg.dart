@@ -2,10 +2,10 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'faceCard.dart';
 
-part 'card.g.dart';
+part 'card_wubrg.g.dart';
 
 @JsonSerializable()
-class Card {
+class CardWubrg {
   String id;
   String name;
   String card_set;
@@ -15,7 +15,7 @@ class Card {
   FaceCard face_front;
   FaceCard? face_reverse;
 
-  Card(
+  CardWubrg(
       this.id,
       this.name,
       this.card_set,
@@ -25,7 +25,7 @@ class Card {
       this.face_front,
       this.face_reverse);
 
-  factory Card.fromJson(Map<String, dynamic> jsonData) =>
+  factory CardWubrg.fromJson(Map<String, dynamic> jsonData) =>
       _$CardFromJson(jsonData);
 
   Map<String, dynamic> toJson() => _$CardToJson(this);
