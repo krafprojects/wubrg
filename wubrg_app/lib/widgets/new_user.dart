@@ -312,4 +312,11 @@ class _NewUserState extends State<NewUser> {
       widget.showInSnackBar('User created!');
     }
   }
+
+  // void submit2()async {
+  //   final AuthResponse res = await Supabase.auth.signUp(
+  //     email: widget.signupEmailController.text ,
+  //     password: 'example-password',
+  //   );
+  // }
 }
