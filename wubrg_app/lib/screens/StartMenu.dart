@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'GamePhrase.dart'; // Import the destination file (gamephrase.dart)
-
+import 'package:wubrg_app/screens/gamePhrase.dart';
 void main() {
   runApp(const StartMenu());
 }
@@ -57,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     // Navigate to the GamePhrase widget when the button is pressed
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => GamePhrase()),
+                      MaterialPageRoute(builder: (context) => const GamePhrase()),
                     );
                   },
                   child: const Text(
