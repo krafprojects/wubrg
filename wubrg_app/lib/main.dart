@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wubrg_app/screens/login_screen.dart';
 
 import 'providers/card_state.dart';
 
@@ -33,6 +34,6 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const LoginPage();
   }
 }

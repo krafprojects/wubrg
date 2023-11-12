@@ -7,11 +7,12 @@ void main() {
 }
 
 class GamePhrase extends StatelessWidget {
-  const GamePhrase({Key? key});
+  const GamePhrase({super.key});
+
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Scaffold(
         body: ImageSlider(),
       ),
@@ -20,7 +21,7 @@ class GamePhrase extends StatelessWidget {
 }
 
 class ImageSlider extends StatefulWidget {
-  const ImageSlider({Key? key});
+  const ImageSlider({super.key});
 
   @override
   _ImageSliderState createState() => _ImageSliderState();
@@ -75,7 +76,7 @@ void _selectCard() {
 void _navigateToEndGamePhrase() {
   Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => EndGamePhrase(title: 'Scoring',)),
+    MaterialPageRoute(builder: (context) => const EndGamePhrase(title: 'Scoring',)),
   );
 }
 
@@ -126,7 +127,7 @@ void _navigateToEndGamePhrase() {
           ),
           ElevatedButton(
             onPressed: _selectCard,
-            child: Text('Select Card'),
+            child: const Text('Select Card'),
           ),
           Align(
             alignment: Alignment.bottomLeft,
@@ -135,15 +136,15 @@ void _navigateToEndGamePhrase() {
               children: [
                 Text(
                   'Total Cards: $cardTotal',
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
                 Text(
                   'Pack: $resetCount',
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
                 Text(
                   'Total cards selected: ${selectedImages.length}',
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ],
             ),
