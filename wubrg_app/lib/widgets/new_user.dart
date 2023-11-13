@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:wubrg_app/services/database_service.dart';
 import 'package:wubrg_app/themes/theme.dart' as Theme;
 
 class NewUser extends StatefulWidget {
@@ -41,6 +44,33 @@ class NewUser extends StatefulWidget {
 }
 
 class _NewUserState extends State<NewUser> {
+
+  late final StreamSubscription<AuthState> _authStateChangesSubscription;
+  @override
+  void initState() {
+    super.initState();
+    _authStateChangesSubscription = supabase.auth.onAuthStateChange.listen((event) {
+      final session = event.session;
+      if (session != null) {
+        Navigator.of(context).pushNamed('/home');
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    widget.myFocusNodeName.dispose();
+    widget.myFocusNodeEmail.dispose();
+    widget.myFocusNodePassword.dispose();
+    widget.signupNameController.dispose();
+    widget.signupEmailController.dispose();
+    widget.signupPasswordController.dispose();
+    widget.signupConfirmPasswordController.dispose();
+    _authStateChangesSubscription.cancel();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -116,16 +146,6 @@ class _NewUserState extends State<NewUser> {
                             widget.signupEmailController =
                                 value as TextEditingController;
                           },
-                          // onFieldSubmitted: (value) async {
-                          //   final response = await Supabase.instance.client
-                          //       .from('users')
-                          //       .insert({'email_address': value});
-                          //   if (response.error != null) {
-                          //     widget.showInSnackBar(response.error!.message);
-                          //   } else {
-                          //     widget.showInSnackBar('User created!');
-                          //   }
-                          // },
                           validator: (value) {
                             if (value == null ||
                                 value.trim().isEmpty ||
@@ -302,15 +322,31 @@ class _NewUserState extends State<NewUser> {
   }
 
   void submit() async {
-    final response = await Supabase.instance.client.from('users').insert({
-      'email_address': widget.signupEmailController.text,
-      'name': widget.signupNameController.text,
-    });
-    if (response.error != null) {
-      widget.showInSnackBar(response.error!.message);
-    } else {
-      widget.showInSnackBar('User created!');
+    try {
+      await supabase.auth.signInWithOtp(
+        email: widget.signupEmailController.text,
+      );
+      if (mounted) {
+        widget.showInSnackBar('Check your email for the login link!');
+      }
+    } on AuthException catch (error) {
+      widget.showInSnackBar(error.message);
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //     content: Text('Algo malio sal'),
+      //   ),
+      // );
     }
+
+    // final response = await Supabase.instance.client.from('users').insert({
+    //   'email_address': widget.signupEmailController.text,
+    //   'name': widget.signupNameController.text,
+    // });
+    // if (response.error != null) {
+    //   widget.showInSnackBar(response.error!.message);
+    // } else {
+    //   widget.showInSnackBar('User created!');
+    // }
   }
 
   // void submit2()async {

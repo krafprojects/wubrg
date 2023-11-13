@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:wubrg_app/screens/login_with_email.dart';
 import 'package:wubrg_app/screens/start_screen.dart';
 
 import '../themes/theme.dart' as Theme;
@@ -31,6 +32,18 @@ class SignUser extends StatefulWidget {
 }
 
 class _SignUserState extends State<SignUser> {
+
+
+  @override
+  void dispose() {
+    widget.myFocusNodePasswordLogin.dispose();
+    widget.myFocusNodeEmailLogin.dispose();
+    widget.loginEmailController.dispose();
+    widget.loginPasswordController.dispose();
+    super.dispose();
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -246,7 +259,9 @@ class _SignUserState extends State<SignUser> {
               Padding(
                 padding: const EdgeInsets.only(top: 10.0, right: 40.0),
                 child: GestureDetector(
-                  onTap: () => widget.showInSnackBar("Facebook button pressed"),
+                  onTap: () => 
+                  Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const LoginWithEmail())),
                   child: Container(
                     padding: const EdgeInsets.all(15.0),
                     decoration: const BoxDecoration(
@@ -263,7 +278,8 @@ class _SignUserState extends State<SignUser> {
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
                 child: GestureDetector(
-                  onTap: () => widget.showInSnackBar("Google button pressed"),
+                  onTap: () =>  Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => const LoginWithEmail())),
                   child: Container(
                     padding: const EdgeInsets.all(15.0),
                     decoration: const BoxDecoration(

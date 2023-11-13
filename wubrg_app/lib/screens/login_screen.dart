@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:wubrg_app/themes/theme.dart' as Theme;
 import 'package:wubrg_app/utils/bubble_indication_painter.dart';
 import 'package:wubrg_app/widgets/new_user.dart';
@@ -40,6 +41,7 @@ class _LoginPageState extends State<LoginPage>
 
   Color left = Colors.black;
   Color right = Colors.white;
+
 
   @override
   Widget build(BuildContext context) {
