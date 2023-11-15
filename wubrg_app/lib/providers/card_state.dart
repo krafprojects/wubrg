@@ -13,17 +13,19 @@ import '../services/card_service.dart';
 // 1x Land
 
 class CardState extends ChangeNotifier {
+  List<CardWubrg> userCardSet = [];
   List<CardWubrg> randomCardSet = [];
 
   void generateRandomCardSet() async {
-    CardWubrg legend = (await getRandomLegendCard()) as CardWubrg;
-    CardWubrg doubleFBattle =
-        (await getRandomDoubleFacedBattleCard()) as CardWubrg;
-    CardWubrg singleFaced = (await getRandomSingleFacedCard()) as CardWubrg;
-    CardWubrg doubleFaced = (await getRandomDoubleFacedCard()) as CardWubrg;
+    CardWubrg legend = (await getRandomLegendCard());
+    CardWubrg doubleFBattle = (await getRandomDoubleFacedBattleCard());
+    CardWubrg singleFaced = (await getRandomSingleFacedCard());
+    CardWubrg doubleFaced = (await getRandomDoubleFacedCard());
     List<CardWubrg> uncommons =
         (await getRandomUncommonCard()).cast<CardWubrg>();
     List<CardWubrg> commons = (await getRandomCommonCard()).cast<CardWubrg>();
+
+    randomCardSet = [];
 
     randomCardSet.add(legend);
     randomCardSet.add(doubleFBattle);
@@ -31,5 +33,20 @@ class CardState extends ChangeNotifier {
     randomCardSet.add(doubleFaced);
     randomCardSet.addAll(uncommons);
     randomCardSet.addAll(commons);
+
+    notifyListeners();
+  }
+
+  void removeFromRandomCardSet(CardWubrg selectedCard) {
+    if (randomCardSet.isNotEmpty) {
+      randomCardSet.remove(selectedCard);
+    }
+
+    notifyListeners();
+  }
+
+  void addToUserCardSet(CardWubrg selectedCard) {
+    userCardSet.add(selectedCard);
+    notifyListeners();
   }
 }

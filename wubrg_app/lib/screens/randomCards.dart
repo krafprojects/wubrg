@@ -1,13 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter/services.dart' show rootBundle;
-
-void main() {
-  runApp(MyApp());
-}
 
 class MyApp extends StatelessWidget {
   @override
@@ -40,10 +33,12 @@ class _CardViewerState extends State<CardViewer> {
   }
 
   Future<void> loadCardAssets() async {
-    final response = await Supabase.instance.client.from('cards').select()
-      .order('random()') // This orders the rows randomly
-      .limit(15) // Limit the result to 15 rows
-      ;
+    final response = await Supabase.instance.client
+            .from('cards')
+            .select()
+            .order('random()') // This orders the rows randomly
+            .limit(15) // Limit the result to 15 rows
+        ;
 
     if (response.error != null) {
       // Handle error
@@ -55,7 +50,6 @@ class _CardViewerState extends State<CardViewer> {
       for (var item in data) {
         // Assuming your data contains URLs to card images
         newCardAssets.add(item['image_url'] as String);
-        
       }
 
       setState(() {

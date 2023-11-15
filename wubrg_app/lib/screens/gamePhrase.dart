@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import '../services/ImageManager.dart';
 
-void main() {
-  runApp(const GamePhrase());
-}
-
 class GamePhrase extends StatelessWidget {
   const GamePhrase({Key? key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: ImageSlider(),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("WURB Drafter"),
+        elevation: 1,
       ),
+      body: ImageSlider(),
     );
   }
 }
