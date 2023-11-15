@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:wubrg_app/screens/EndGamePhrasse.dart';
 import '../services/ImageManager.dart';
 
 class GamePhrase extends StatelessWidget {
-  const GamePhrase({Key? key});
+  const GamePhrase({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class GamePhrase extends StatelessWidget {
 }
 
 class ImageSlider extends StatefulWidget {
-  const ImageSlider({Key? key});
+  const ImageSlider({super.key});
 
   @override
   _ImageSliderState createState() => _ImageSliderState();
@@ -29,13 +30,13 @@ class _ImageSliderState extends State<ImageSlider> {
   int currentIndex = 0;
   List<String> selectedImages = [];
   int cardTotal = 15; // Initialize cardTotal with the total number of cards
+  int resetCount = 1; // Initialize reset count
 
   @override
   void initState() {
     super.initState();
     List<String> allImages = _imageManager.randomImages;
-    images =
-        allImages.take(cardTotal).toList(); // Use the initial cardTotal value
+    images = allImages.take(cardTotal).toList();
   }
 
   void _nextImage() {
@@ -56,8 +57,39 @@ class _ImageSliderState extends State<ImageSlider> {
 
       // Decrement cardTotal and use the decremented value
       cardTotal--;
-      images = _imageManager.randomImages.take(cardTotal).toList();
       currentIndex = 0;
+    });
+
+    // Check if selectedImages has reached 15 or 30
+    if (selectedImages.length == 15 || selectedImages.length == 30) {
+      print("You have selected ${selectedImages.length} images. Resetting...");
+      _resetSlider();
+    } else if (selectedImages.length == 45) {
+      print("You have selected 45 images. Navigating to EndGamePhrase...");
+      _navigateToEndGamePhrase();
+    }
+  }
+
+  void _navigateToEndGamePhrase() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => const EndGamePhrase(
+                title: 'Scoring',
+              )),
+    );
+  }
+
+  void _resetSlider() {
+    setState(() {
+      // Increment reset count
+      resetCount++;
+
+      // Reset cardTotal to 15
+      cardTotal = 15;
+
+      // Repopulate images list with random images
+      images = _imageManager.randomImages.take(cardTotal).toList();
     });
   }
 
@@ -94,15 +126,28 @@ class _ImageSliderState extends State<ImageSlider> {
           ),
           ElevatedButton(
             onPressed: _selectCard,
-            child: Text('Select Card'),
+            child: const Text('Select Card'),
           ),
           Align(
-            alignment: Alignment.bottomLeft, // Align the text to the left
-            child: Text(
-              'Total Cards: $cardTotal', // Use cardTotal here
-              style: TextStyle(fontSize: 16),
+            alignment: Alignment.bottomLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Total Cards: $cardTotal',
+                  style: const TextStyle(fontSize: 16),
+                ),
+                Text(
+                  'Pack: $resetCount',
+                  style: const TextStyle(fontSize: 16),
+                ),
+                Text(
+                  'Total cards selected: ${selectedImages.length}',
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ],
             ),
-          )
+          ),
         ],
       ),
     );

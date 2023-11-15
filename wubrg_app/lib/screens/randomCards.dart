@@ -3,20 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('MTG Card Viewer'),
+          title: const Text('MTG Card Viewer'),
         ),
-        body: CardViewer(),
+        body: const CardViewer(),
       ),
     );
   }
 }
 
 class CardViewer extends StatefulWidget {
+  const CardViewer({super.key});
+
   @override
   _CardViewerState createState() => _CardViewerState();
 }
@@ -91,11 +95,11 @@ class _CardViewerState extends State<CardViewer> {
       children: <Widget>[
         ElevatedButton(
           onPressed: loadCardAssets,
-          child: Text('Get New Cards'),
+          child: const Text('Get New Cards'),
         ),
         Expanded(
           child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 5,
             ),
             itemCount: cardAssets.length,
@@ -125,10 +129,10 @@ class _CardViewerState extends State<CardViewer> {
                 padding: const EdgeInsets.all(16.0),
                 child: Text(
                   'Selected Card: ${selectedCard.split('/').last}',
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               )
-            : SizedBox(),
+            : const SizedBox(),
       ],
     );
   }

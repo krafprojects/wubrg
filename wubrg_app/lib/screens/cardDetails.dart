@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MtgCardViewerApp());
-}
+// void main() {
+//   runApp(MtgCardViewerApp());
+// }
 
 class MtgCardViewerApp extends StatelessWidget {
+  const MtgCardViewerApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'MTG Card Viewer',
       home: MtgCardViewer(),
     );
@@ -15,6 +17,8 @@ class MtgCardViewerApp extends StatelessWidget {
 }
 
 class MtgCardViewer extends StatefulWidget {
+  const MtgCardViewer({super.key});
+
   @override
   _MtgCardViewerState createState() => _MtgCardViewerState();
 }
@@ -27,7 +31,7 @@ class _MtgCardViewerState extends State<MtgCardViewer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('MTG Card Viewer'),
+        title: const Text('MTG Card Viewer'),
       ),
       body: Center(
         child: Row(
@@ -59,18 +63,18 @@ class _MtgCardViewerState extends State<MtgCardViewer> {
                 ),
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'Current Score',
                   style: TextStyle(fontSize: 18),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   currentScore.toString(),
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -88,9 +92,9 @@ class _MtgCardViewerState extends State<MtgCardViewer> {
                 });
               }
             },
-            child: Text('Zoom In'),
+            child: const Text('Zoom In'),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               if (zoomLevel > 0.5) {
@@ -99,7 +103,7 @@ class _MtgCardViewerState extends State<MtgCardViewer> {
                 });
               }
             },
-            child: Text('Zoom Out'),
+            child: const Text('Zoom Out'),
           ),
         ],
       ),
