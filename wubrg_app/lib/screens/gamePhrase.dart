@@ -7,12 +7,11 @@ void main() {
 }
 
 class GamePhrase extends StatelessWidget {
-  const GamePhrase({super.key});
-
+  const GamePhrase({Key? key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
         body: ImageSlider(),
       ),
@@ -21,7 +20,7 @@ class GamePhrase extends StatelessWidget {
 }
 
 class ImageSlider extends StatefulWidget {
-  const ImageSlider({super.key});
+  const ImageSlider({Key? key});
 
   @override
   _ImageSliderState createState() => _ImageSliderState();
@@ -34,6 +33,8 @@ class _ImageSliderState extends State<ImageSlider> {
   List<String> selectedImages = [];
   int cardTotal = 15; // Initialize cardTotal with the total number of cards
   int resetCount = 1; // Initialize reset count
+  bool magnifyVisible = false;
+  int magnifyIndex = 0;
 
   @override
   void initState() {
@@ -50,36 +51,35 @@ class _ImageSliderState extends State<ImageSlider> {
     });
   }
 
-void _selectCard() {
-  setState(() {
-    // Add the currently displayed image to the selectedImages list
-    selectedImages.add(images[currentIndex]);
+  void _selectCard() {
+    setState(() {
+      // Add the currently displayed image to the selectedImages list
+      selectedImages.add(images[currentIndex]);
 
-    // Remove the selected image from the images list
-    images.removeAt(currentIndex);
+      // Remove the selected image from the images list
+      images.removeAt(currentIndex);
 
-    // Decrement cardTotal and use the decremented value
-    cardTotal--;
-    currentIndex = 0;
-  });
+      // Decrement cardTotal and use the decremented value
+      cardTotal--;
+      currentIndex = 0;
+    });
 
-  // Check if selectedImages has reached 15 or 30
-  if (selectedImages.length == 15 || selectedImages.length == 30) {
-    print("You have selected ${selectedImages.length} images. Resetting...");
-    _resetSlider();
-  } else if (selectedImages.length == 45) {
-    print("You have selected 45 images. Navigating to EndGamePhrase...");
-    _navigateToEndGamePhrase();
+    // Check if selectedImages has reached 15 or 30
+    if (selectedImages.length == 15 || selectedImages.length == 30) {
+      print("You have selected ${selectedImages.length} images. Resetting...");
+      _resetSlider();
+    } else if (selectedImages.length == 45) {
+      print("You have selected 45 images. Score counting...");
+      _navigateToEndGamePhrase();
+    }
   }
-}
 
-void _navigateToEndGamePhrase() {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => const EndGamePhrase(title: 'Scoring',)),
-  );
-}
-
+  void _navigateToEndGamePhrase() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => EndGamePhrase(title: 'Scoring')),
+    );
+  }
 
   void _resetSlider() {
     setState(() {
@@ -94,61 +94,115 @@ void _navigateToEndGamePhrase() {
     });
   }
 
+  void _toggleMagnifyView(int index) {
+    setState(() {
+      magnifyIndex = index;
+      magnifyVisible = !magnifyVisible;
+    });
+  }
+
+  Widget _buildMagnifyView() {
+    if (magnifyVisible) {
+      return Positioned.fill(
+        child: PageView.builder(
+          itemCount: selectedImages.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () => _toggleMagnifyView(-1), // Close magnify view
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      selectedImages[index],
+                      fit: BoxFit.contain,
+                    ),
+                    Text('Tap to exit.'),
+                  ],
+                ),
+              ),
+            );
+          },
+          onPageChanged: (index) {
+            setState(() {
+              magnifyIndex = index;
+            });
+          },
+        ),
+      );
+    } else {
+      return Container(); // Empty container if magnified view is not visible
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          if (selectedImages.isNotEmpty)
-            SizedBox(
-              height: 100,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: selectedImages.length,
-                itemBuilder: (context, index) {
-                  return Image.asset(selectedImages[index]);
-                },
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (selectedImages.isNotEmpty)
+                SizedBox(
+                  height: 100,
+                  child: GestureDetector(
+                    onTap: () => _toggleMagnifyView(currentIndex),
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: selectedImages.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Image.asset(selectedImages[index]),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              SizedBox(
+                height: 400,
+                child: PageView.builder(
+                  itemCount: images.length,
+                  itemBuilder: (context, index) {
+                    return Image.asset(images[index]);
+                  },
+                  onPageChanged: (index) {
+                    setState(() {
+                      currentIndex = index;
+                    });
+                  },
+                ),
               ),
-            ),
-          SizedBox(
-            height: 400,
-            child: PageView.builder(
-              itemCount: images.length,
-              itemBuilder: (context, index) {
-                return Image.asset(images[index]);
-              },
-              onPageChanged: (index) {
-                setState(() {
-                  currentIndex = index;
-                });
-              },
-            ),
-          ),
-          ElevatedButton(
-            onPressed: _selectCard,
-            child: const Text('Select Card'),
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Total Cards: $cardTotal',
-                  style: const TextStyle(fontSize: 16),
+              ElevatedButton(
+                onPressed: _selectCard,
+                child: Text('Select Card'),
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Total Cards: $cardTotal',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Text(
+                      'Pack: $resetCount',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Text(
+                      'Total cards selected: ${selectedImages.length}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
                 ),
-                Text(
-                  'Pack: $resetCount',
-                  style: const TextStyle(fontSize: 16),
-                ),
-                Text(
-                  'Total cards selected: ${selectedImages.length}',
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
+          _buildMagnifyView(),
         ],
       ),
     );
