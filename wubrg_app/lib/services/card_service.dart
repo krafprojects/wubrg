@@ -16,7 +16,7 @@ import '../models/card_wubrg.dart';
 CardWubrg getRandomCard(List<CardWubrg> cards) {
   final random = Random();
   var i = random.nextInt(cards.length);
-  print(i);
+  // print(i);
   return cards[i];
 }
 
@@ -36,36 +36,36 @@ List<CardWubrg> getRandomCards(List<CardWubrg> cards, int quantity) {
 
 Future<CardWubrg> getRandomLegendCard() async {
   List<CardWubrg> cards = await getLegendCards();
-  print(cards.length);
+  print("Legends: ${cards.length}");
   return getRandomCard(cards);
 }
 
 Future<CardWubrg> getRandomDoubleFacedBattleCard() async {
   List<CardWubrg> cards = await getDoubleFacedBattleCards();
-  print(cards.length);
+  print("DFB: ${cards.length}");
   return getRandomCard(cards);
 }
 
 Future<CardWubrg> getRandomSingleFacedCard() async {
   List<CardWubrg> cards = await getSingleFacedCards();
-  print(cards.length);
+  print("SF: ${cards.length}");
   return getRandomCard(cards);
 }
 
 Future<CardWubrg> getRandomDoubleFacedCard() async {
   List<CardWubrg> cards = await getDoubleFacedCards();
-  print(cards.length);
+  print("Double faced: ${cards.length}");
   return getRandomCard(cards);
 }
 
 Future<List<CardWubrg>> getRandomUncommonCard() async {
   List<CardWubrg> cards = await getUncommonCards();
-  print(cards.length);
+  print("Uncommon: ${cards.length}");
   return getRandomCards(cards, 2);
 }
 
 Future<List<CardWubrg>> getRandomCommonCard() async {
   List<CardWubrg> cards = await getCommonCards();
-  print(cards.length);
+  print("Common: ${cards.length}");
   return getRandomCards(cards, 8);
 }

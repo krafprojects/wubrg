@@ -5,6 +5,7 @@ import 'package:wubrg_app/screens/gamePhrase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:wubrg_app/screens/login_screen.dart';
 import 'package:wubrg_app/screens/splash.dart';
+import 'package:wubrg_app/screens/start_screen.dart';
 
 import 'providers/card_state.dart';
 import 'util/color_schemes.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         routes: {
           "/": (context) => StartMenu(),
           "/start-game": (context) => GamePhrase(),
+          "/drafter": (context) => StartScreen(),
         },
       ),
     );

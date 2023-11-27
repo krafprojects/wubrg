@@ -16,7 +16,9 @@ class CardState extends ChangeNotifier {
   List<CardWubrg> userCardSet = [];
   List<CardWubrg> randomCardSet = [];
 
-  void generateRandomCardSet() async {
+  int carouselIndex = 0;
+
+  Future<void> generateRandomCardSet() async {
     CardWubrg legend = (await getRandomLegendCard());
     CardWubrg doubleFBattle = (await getRandomDoubleFacedBattleCard());
     CardWubrg singleFaced = (await getRandomSingleFacedCard());
@@ -25,7 +27,7 @@ class CardState extends ChangeNotifier {
         (await getRandomUncommonCard()).cast<CardWubrg>();
     List<CardWubrg> commons = (await getRandomCommonCard()).cast<CardWubrg>();
 
-    randomCardSet = [];
+    // randomCardSet = [];
 
     randomCardSet.add(legend);
     randomCardSet.add(doubleFBattle);
@@ -47,6 +49,12 @@ class CardState extends ChangeNotifier {
 
   void addToUserCardSet(CardWubrg selectedCard) {
     userCardSet.add(selectedCard);
+    notifyListeners();
+  }
+
+  void updateCarouselIndex(int index) {
+    carouselIndex = index;
+    print(carouselIndex);
     notifyListeners();
   }
 }

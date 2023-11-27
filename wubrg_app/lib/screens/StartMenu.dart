@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/card_state.dart';
 
 class StartMenu extends StatelessWidget {
   const StartMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cardState = Provider.of<CardState>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("WURB Drafter"),
@@ -13,10 +17,11 @@ class StartMenu extends StatelessWidget {
       body: Center(
         child: OutlinedButton(
           style: ButtonStyle(
-            padding: MaterialStatePropertyAll(EdgeInsets.all(32)),
+            padding: MaterialStatePropertyAll(EdgeInsets.all(24)),
           ),
-          onPressed: () {
-            Navigator.pushNamed(context, "/start-game");
+          onPressed: () async {
+            await cardState.generateRandomCardSet();
+            Navigator.pushNamed(context, "/drafter");
           },
           child: Text(
             "Start Drafting",

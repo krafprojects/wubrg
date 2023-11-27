@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wubrg_app/screens/EndGamePhrasse.dart';
+import 'package:wubrg_app/services/database_service.dart';
+import '../providers/card_state.dart';
 import '../services/ImageManager.dart';
 
 class GamePhrase extends StatelessWidget {
@@ -95,6 +98,7 @@ class _ImageSliderState extends State<ImageSlider> {
 
   @override
   Widget build(BuildContext context) {
+    final cardst = Provider.of<CardState>(context);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -125,7 +129,11 @@ class _ImageSliderState extends State<ImageSlider> {
             ),
           ),
           ElevatedButton(
-            onPressed: _selectCard,
+            // onPressed: _selectCard,
+            onPressed: () {
+              // cardst.setRandomCardSet();
+              print("Card set length: ${cardst.randomCardSet.length}");
+            },
             child: const Text('Select Card'),
           ),
           Align(
