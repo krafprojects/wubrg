@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:wubrg_app/screens/StartMenu.dart';
 import 'package:wubrg_app/screens/gamePhrase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:wubrg_app/screens/login_screen.dart';
 import 'package:wubrg_app/screens/splash.dart';
 import 'package:wubrg_app/screens/start_screen.dart';
 
@@ -35,9 +34,9 @@ class MyApp extends StatelessWidget {
         darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
         initialRoute: "/",
         routes: {
-          "/": (context) => StartMenu(),
-          "/start-game": (context) => GamePhrase(),
-          "/drafter": (context) => StartScreen(),
+          "/": (context) => const StartMenu(),
+          "/start-game": (context) => const GamePhrase(),
+          "/drafter": (context) => const StartScreen(),
         },
       ),
     );

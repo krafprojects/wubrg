@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wubrg_app/themes/theme.dart' as Theme;
 
 import '../providers/card_state.dart';
 
@@ -10,23 +11,50 @@ class StartMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final cardState = Provider.of<CardState>(context);
     return Scaffold(
+      backgroundColor: Theme.Colores.loginGradientEnd,
       appBar: AppBar(
-        title: Text("WURB Drafter"),
+        backgroundColor: Theme.Colores.primaryColor,
+        title: const Text("WURB Drafter", style: TextStyle(fontSize: 30, color: Colors.white)),
         centerTitle: true,
       ),
-      body: Center(
-        child: OutlinedButton(
-          style: ButtonStyle(
-            padding: MaterialStatePropertyAll(EdgeInsets.all(24)),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Theme.Colores.loginGradientStart,
+              Theme.Colores.loginGradientEnd
+            ],
           ),
-          onPressed: () async {
-            await cardState.generateRandomCardSet();
-            Navigator.pushNamed(context, "/drafter");
-          },
-          child: Text(
-            "Start Drafting",
-            style: TextStyle(fontSize: 18),
-          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Image.asset(
+              "assets/pato.png",
+            ),
+            OutlinedButton(
+              style: const ButtonStyle(
+                padding: MaterialStatePropertyAll(EdgeInsets.all(24)),
+                shape: MaterialStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(15),
+                    ),
+                  ),
+                ),
+              ),
+              onPressed: () async {
+                await cardState.generateRandomCardSet();
+                Navigator.pushNamed(context, "/drafter");
+              },
+              child: const Text(
+                "Start Drafting",
+                style: TextStyle(fontSize: 25, color: Colors.white),
+              ),
+            ),
+          ],
         ),
       ),
     );
