@@ -2,10 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -14,7 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title:  const Text('MTG Card Viewer'),
+          title: const Text('MTG Card Viewer'),
         ),
         body: const CardViewer(),
       ),
@@ -41,10 +37,12 @@ class _CardViewerState extends State<CardViewer> {
   }
 
   Future<void> loadCardAssets() async {
-    final response = await Supabase.instance.client.from('cards').select()
-      .order('random()') // This orders the rows randomly
-      .limit(15) // Limit the result to 15 rows
-      ;
+    final response = await Supabase.instance.client
+            .from('cards')
+            .select()
+            .order('random()') // This orders the rows randomly
+            .limit(15) // Limit the result to 15 rows
+        ;
 
     if (response.error != null) {
       // Handle error
@@ -56,7 +54,6 @@ class _CardViewerState extends State<CardViewer> {
       for (var item in data) {
         // Assuming your data contains URLs to card images
         newCardAssets.add(item['image_url'] as String);
-        
       }
 
       setState(() {

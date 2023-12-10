@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wubrg_app/screens/StartMenu.dart';
+import 'package:wubrg_app/screens/gamePhrase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:wubrg_app/screens/login_screen.dart';
 import 'package:wubrg_app/screens/splash.dart';
+import 'package:wubrg_app/screens/start_screen.dart';
 
 import 'providers/card_state.dart';
+import 'util/color_schemes.dart';
 
 Future<void> main() async {
   await Supabase.initialize(
@@ -26,12 +29,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CardState()),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-          useMaterial3: true,
-        ),
-        home: const MyHomePage(title: 'Wubr Drafter'),
+        title: 'WUBRG',
+        // theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+        initialRoute: "/",
+        routes: {
+          "/": (context) => const StartMenu(),
+          "/start-game": (context) => const GamePhrase(),
+          "/drafter": (context) => const StartScreen(),
+        },
       ),
     );
   }

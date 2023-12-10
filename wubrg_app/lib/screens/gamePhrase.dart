@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wubrg_app/screens/EndGamePhrasse.dart';
+import 'package:wubrg_app/services/database_service.dart';
+import '../providers/card_state.dart';
 import '../services/ImageManager.dart';
 
-void main() {
-  runApp(const GamePhrase());
-}
-
 class GamePhrase extends StatelessWidget {
-  const GamePhrase({Key? key});
+  const GamePhrase({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: ImageSlider(),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("WURB Drafter"),
+        elevation: 1,
       ),
+      body: ImageSlider(),
     );
   }
 }
@@ -77,7 +78,10 @@ class _ImageSliderState extends State<ImageSlider> {
   void _navigateToEndGamePhrase() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => EndGamePhrase(title: 'Scoring')),
+      MaterialPageRoute(
+          builder: (context) => const EndGamePhrase(
+                title: 'Scoring',
+              )),
     );
   }
 
@@ -138,6 +142,7 @@ class _ImageSliderState extends State<ImageSlider> {
 
   @override
   Widget build(BuildContext context) {
+    final cardst = Provider.of<CardState>(context);
     return Center(
       child: Stack(
         alignment: Alignment.center,
@@ -177,7 +182,11 @@ class _ImageSliderState extends State<ImageSlider> {
                 ),
               ),
               ElevatedButton(
-                onPressed: _selectCard,
+                // onPressed: _selectCard,
+                onPressed: () {
+                  // cardst.setRandomCardSet();
+                  print("Card set length: ${cardst.randomCardSet.length}");
+                },
                 child: Text('Select Card'),
               ),
               Align(
